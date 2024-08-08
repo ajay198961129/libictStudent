@@ -27,7 +27,7 @@
 }
 
 .course-info {
-  background-color: #4c7ce3;
+  background-color: #002f5f;
   color: #fff;
   padding: 19px 13px 20px 13px;
   position: relative;
@@ -38,6 +38,7 @@
 
 .course-info h2 {
   margin: 0px;
+  font-size: 21px;
 }
 
 .course-footer a {

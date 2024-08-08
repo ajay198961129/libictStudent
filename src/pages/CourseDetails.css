@@ -37,16 +37,16 @@
 .course-title-left a {
   margin-top: 10px;
   padding: 10px 150px;
-  background-color: rgb(1, 1, 199);
+  background-color: #002f5f;
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
-  border: 1px solid rgb(1, 1, 199);
+  border: 1px solid #002f5f;
 }
 
 .course-title-left a:hover {
   background-color: rgb(255, 255, 255);
-  color: rgb(1, 1, 199);
+  color: #002f5f;
   font-weight: 700;
 }
 
@@ -55,11 +55,11 @@
 }
 
 .course-details-body-left h2 {
-  color: #080074;
+  color: #002f5f;
   font-family: "Josefin Sans", sans-serif;
 }
 .course-details-body-left h3 {
-  color: #080074;
+  color: #002f5f;
   font-family: "Josefin Sans", sans-serif;
 }
 
@@ -72,7 +72,7 @@
 }
 
 .course-content-item h3 {
-  color: #1100ff;
+  color: #002f5f;
   margin-bottom: 0px;
 }
 
