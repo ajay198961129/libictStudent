@@ -1,17 +1,27 @@
-import axiosInstance from "./config";
+import axiosInstance from "./axios";
 
-export const getUser = (userId) => {
-  return axiosInstance.get(`/users/${userId}`);
+export const signupUser = async (userData) => {
+  console.log(userData);
+
+  let jsonUserData = JSON.stringify(userData);
+
+  try {
+    const response = await axiosInstance.post("/signup", jsonUserData);
+    return response.data;
+  } catch (error) {
+    throw error.response
+      ? error.response.data
+      : new Error("Something went wrong");
+  }
 };
 
-export const createUser = (userData) => {
-  return axiosInstance.post("/users", userData);
-};
-
-export const updateUser = (userId, userData) => {
-  return axiosInstance.put(`/users/${userId}`, userData);
-};
-
-export const deleteUser = (userId) => {
-  return axiosInstance.delete(`/users/${userId}`);
+export const loginUser = async (userData) => {
+  try {
+    const response = await axiosInstance.post("/login", userData);
+    return response.data;
+  } catch (error) {
+    throw error.response
+      ? error.response.data
+      : new Error("Something went wrong");
+  }
 };

@@ -1,5 +1,6 @@
 import React from "react";
 import "./Hero.css";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -10,7 +11,11 @@ const Hero = () => {
         Free online courses for anyone making a difference, taught by leading
         social entrepreneurs and nonprofit leaders.
       </p>
-      <button>START LEARNING</button>
+      <button>
+        <Link style={{ textDecoration: "none", color: "#fff" }} to={"/courses"}>
+          START LEARNING
+        </Link>
+      </button>
     </div>
   );
 };

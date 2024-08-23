@@ -34,17 +34,19 @@
   margin-bottom: 20px;
 }
 
-.course-title-left a {
+.btn-enroll {
   margin-top: 10px;
-  padding: 10px 150px;
+  padding: 10px 80px !important;
+  text-align: center;
   background-color: #002f5f;
   color: #fff;
   text-decoration: none;
   font-size: 1.2em;
   border: 1px solid #002f5f;
+  cursor: pointer;
 }
 
-.course-title-left a:hover {
+.btn-enroll:hover {
   background-color: rgb(255, 255, 255);
   color: #002f5f;
   font-weight: 700;

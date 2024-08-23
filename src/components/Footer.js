@@ -3,40 +3,35 @@ import "./Footer.css";
 import logo from "../assests/images/logo-mini.png";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { FaLinkedinIn, FaTwitter } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer>
       <div className="footer-logo">
-        <img src={logo} />
+        <img alt="logo" src={logo} />
         <p>
           LIBICT is an online learning platform for social impact organizations.
         </p>
         <div className="social-media">
-          <a href="#">
+          <Link to={"#"}>
             <FaFacebook color="#fff" size={25} />
-          </a>
-          <a href="#">
+          </Link>
+          <Link to={"#"}>
             <FaTwitter color="#fff" size={25} />
-          </a>
-          <a href="#">
+          </Link>
+          <Link to={"#"}>
             <FaLinkedinIn color="#fff" size={25} />
-          </a>
-          <a href="#">
+          </Link>
+          <Link to={"#"}>
             <FaYoutube color="#fff" size={25} />
-          </a>
+          </Link>
         </div>
       </div>
       <div className="quick-links">
         <h3>Quick Links</h3>
         <ul>
           <li>
-            <a href="#">About Us</a>
-          </li>
-          <li>
-            <a href="#">Terms of Use</a>
-          </li>
-          <li>
-            <a href="#">Privacy Policy</a>
+            <Link to={"/about-us"}>About Us</Link>
           </li>
         </ul>
       </div>
@@ -44,7 +39,7 @@ const Footer = () => {
         <h3>Company</h3>
         <ul>
           <li>
-            <a href="#">Courses</a>
+            <Link to={""}>Courses</Link>
           </li>
         </ul>
       </div>

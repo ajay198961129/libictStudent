@@ -1,29 +1,48 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./MyCourse.css";
-import { Link } from "react-router-dom";
+import { academyId, userApiUrl } from "../api/config";
+import axios from "axios";
+import MyCoursesWidget from "../components/MyCoursesWidget";
+import Loader from "../components/Loader";
 
 function MyCourse() {
+  const [load, setLoad] = useState(false);
+  const [myCourseData, setMyCourseData] = useState([]);
+  const fetchCourses = async () => {
+    // Data to be sent in the POST request
+
+    try {
+      const userId = localStorage.getItem("userId");
+
+      let sendData = {
+        academyId: academyId,
+        userId: userId,
+      };
+      const response = await axios.post(`${userApiUrl}/my-course/`, sendData);
+      setMyCourseData(response.data);
+      setLoad(true);
+    } catch (error) {
+      console.log(error);
+      setLoad(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   return (
     <div className="main-content">
-      <h2>My Courses</h2>
-      <div className="mycourse-wrapper">
-        <img
-          src="https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/01/Pictures/_c34102da-9849-11e5-b4f4-1b7a09ed2cea.jpg"
-          alt=""
-        />
-        <div className="mycourse-content">
-          <h3>Branding 101</h3>
-          <div className="mycourse-footer">
-            <div className="mycourse-footer-content">
-              <p>Amos Sando</p>
-              <p>Website Development</p>
-            </div>
-            <div className="mycourse-action">
-              <Link to="/course-player">Resume Course</Link>
-            </div>
-          </div>
-        </div>
-      </div>
+      {load ? (
+        <>
+          <h2>My Courses</h2>
+          {myCourseData.map((myCourse, index) => (
+            <MyCoursesWidget key={index} data={myCourse} />
+          ))}
+        </>
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 }

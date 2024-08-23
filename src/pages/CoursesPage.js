@@ -1,67 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CoursesPage.css";
 import CourseCard from "../components/CourseCard";
+import { academyId, userApiUrl } from "../api/config";
+import axios from "axios";
+import Loader from "../components/Loader";
 
-const courses = [
-  {
-    title: "Branding 101",
-    date: "Jul 1, 2020",
-    image:
-      "https://img.freepik.com/free-photo/education-day-arrangement-table-with-copy-space_23-2148721266.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1722124800&semt=sph",
-  },
-  {
-    title: "Developing an Operating Budget",
-    date: "Jul 18, 2020",
-    image:
-      "https://www.voicesofyouth.org/sites/voy/files/images/2022-03/educ.jpg",
-  },
-  {
-    title: "Advocacy",
-    date: "Aug 27, 2020",
-    image:
-      "https://academicworld.co.in/wp-content/uploads/2022/07/Aws-Education-scaled-1.jpg",
-  },
-  {
-    title: "Creating a Theory of Change",
-    date: "Dec 23, 2019",
-    image:
-      "https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/01/Pictures/_c34102da-9849-11e5-b4f4-1b7a09ed2cea.jpg",
-  },
-  {
-    title: "Advocacy",
-    date: "Aug 27, 2020",
-    image:
-      "https://academicworld.co.in/wp-content/uploads/2022/07/Aws-Education-scaled-1.jpg",
-  },
-  {
-    title: "Developing an Operating Budget",
-    date: "Jul 18, 2020",
-    image:
-      "https://www.voicesofyouth.org/sites/voy/files/images/2022-03/educ.jpg",
-  },
-  {
-    title: "Advocacy",
-    date: "Aug 27, 2020",
-    image:
-      "https://academicworld.co.in/wp-content/uploads/2022/07/Aws-Education-scaled-1.jpg",
-  },
-  {
-    title: "Creating a Theory of Change",
-    date: "Dec 23, 2019",
-    image:
-      "https://images.hindustantimes.com/rf/image_size_640x362/HT/p2/2015/12/01/Pictures/_c34102da-9849-11e5-b4f4-1b7a09ed2cea.jpg",
-  },
-];
+const CoursesPage = () => {
+  const [load, setLoad] = useState(false);
+  const [courseData, setCourseData] = useState([]);
+  const fetchCourses = async () => {
+    // Data to be sent in the POST request
+    const data = {
+      academyId: academyId,
+    };
 
-const CoursesPage = () => (
-  <div className="course-wrapper">
-    <h1>Viewing 8 Courses</h1>
-    <div className="courses-grid">
-      {courses.map((course, index) => (
-        <CourseCard key={index} course={course} />
-      ))}
+    try {
+      const response = await axios.post(`${userApiUrl}/courses`, data);
+      setCourseData(response.data);
+      setLoad(true);
+    } catch (error) {
+      console.log(error);
+      setLoad(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
+  return (
+    <div className="course-wrapper">
+      {load ? (
+        <>
+          <h1>Viewing {courseData.length} Courses</h1>
+          <div className="courses-grid">
+            {courseData.map((course, index) => (
+              <CourseCard key={index} course={course} />
+            ))}
+          </div>
+        </>
+      ) : (
+        <Loader />
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export default CoursesPage;

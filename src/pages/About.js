@@ -37,7 +37,10 @@ const About = () => {
           </p>
         </div>
         <div>
-          <img src="https://static.wixstatic.com/media/f588b0_4650ab8feea649028c7aff75c8c7ccd1~mv2.jpg/v1/fill/w_675,h_661,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/f588b0_4650ab8feea649028c7aff75c8c7ccd1~mv2.jpg" />
+          <img
+            alt="about"
+            src="https://static.wixstatic.com/media/f588b0_4650ab8feea649028c7aff75c8c7ccd1~mv2.jpg/v1/fill/w_675,h_661,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/f588b0_4650ab8feea649028c7aff75c8c7ccd1~mv2.jpg"
+          />
         </div>
       </div>
       <div className="section-3">
@@ -69,7 +72,10 @@ const About = () => {
           </p>
         </div>
         <div>
-          <img src="https://static.wixstatic.com/media/f588b0_25c23aacd4c141f083545c2b806ebf53~mv2.png/v1/fill/w_512,h_452,al_c,lg_1,q_85,enc_auto/Asset%204.png" />
+          <img
+            alt="about"
+            src="https://static.wixstatic.com/media/f588b0_25c23aacd4c141f083545c2b806ebf53~mv2.png/v1/fill/w_512,h_452,al_c,lg_1,q_85,enc_auto/Asset%204.png"
+          />
         </div>
       </div>
     </>

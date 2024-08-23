@@ -1,80 +1,136 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CourseDetails.css";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { academyId, userApiUrl } from "../api/config";
+import TransformData from "../components/TransformData";
+import Loader from "../components/Loader";
 
 function CourseDetails() {
+  const { courseId } = useParams();
+  const [load, setLoad] = useState(false);
+  const [btnLoad, setBtnLoad] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
+  const [courseDetials, setCourseDetials] = useState([]);
+  const [contentData, setContentData] = useState([]);
+  const navigate = useNavigate();
+  const userId = localStorage.getItem("userId");
+
+  const fetchContent = async () => {
+    setLoad(false);
+    try {
+      const response = await axios.get(
+        `${userApiUrl}/content/${academyId}/${courseId}`
+      );
+      setLoad(true);
+      setContentData(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchCourses = async () => {
+    setLoad(false);
+    try {
+      const response = await axios.get(
+        `${userApiUrl}/course/${academyId}/${courseId}`
+      );
+      setLoad(true);
+      setCourseDetials(response.data);
+      fetchContent();
+
+      if (userId != null) {
+        getPurchased();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getPurchased = async () => {
+    try {
+      const response = await axios.get(
+        `${userApiUrl}/my-purchased/${academyId}/${userId}/${courseId}`
+      );
+      if (response) {
+        setIsPurchased(response.data.isPurchased);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsPurchased(false);
+    }
+  };
+
+  const addMyCourse = async () => {
+    const sendData = {
+      academyId: academyId,
+      courseId: courseId,
+      userId: userId,
+    };
+    if (userId != null) {
+      try {
+        const response = await axios.post(`${userApiUrl}/my-course`, sendData);
+        setBtnLoad(true);
+        if (userId != null) {
+          getPurchased();
+        }
+        // console.log(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      navigate("/login");
+    }
+  };
+
+  useEffect(() => {
+    fetchCourses();
+  }, []);
+
   return (
-    <div className="course-details-wrapper">
-      <div className="course-details-content">
-        <div className="course-title-wrapper">
-          <div className="course-title-left">
-            <h1>Planning for Monitoring and Evaluation</h1>
-            <p>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-              Molestias placeat totam possimus voluptate dignissimos,
-              consequuntur sit exercitationem nobis beatae iste. Lorem ipsum
-              dolor, sit amet consectetur adipisicing elit. Hic eaque omnis
-              aperiam, praesentium itaque quas ipsum porro veritatis in
-              consequatur.
-            </p>
-            <a href="#">Enroll Now</a>
-          </div>
-          <img
-            src="https://courses.philanthropyu.org/asset-v1:FHI360+MonitoringEvaluation_101+1_1.0_20180416_20180527+type@asset+block@tamarcus-brown-131428__1__copy.jpg"
-            alt=""
-          />
-        </div>
-        <div className="course-details-body">
-          <div className="course-details-body-left">
-            <h2>Description</h2>
-            <p>
-              What does your organization want to accomplish? Whether your goal
-              is to combat deforestation or to provide sustainable livelihoods,
-              your team needs to know which financial resources are available to
-              them. In other words, your team needs an accurate and effective
-              operating budget.
-            </p>
-            <h3>Course Content</h3>
-            <div className="course-content-wraper">
-              <div className="course-content-item">
-                <h3>Chapter I</h3>
-                <ol>
-                  <li> Introduction to Budgeting</li>
-                  <li>Types of Budgets</li>
-                </ol>
+    <>
+      <div className="course-details-wrapper">
+        {!load ? (
+          <Loader />
+        ) : (
+          <div className="course-details-content">
+            <div className="course-title-wrapper">
+              <div className="course-title-left">
+                <h1>{courseDetials.title}</h1>
+                <p>{courseDetials.description}</p>
+                {isPurchased ? (
+                  <Link className="btn-enroll btn-purchased">
+                    Continue Your Course
+                  </Link>
+                ) : (
+                  <div className="btn-enroll" onClick={addMyCourse}>
+                    Enroll Now
+                  </div>
+                )}
               </div>
-              <div className="course-content-item">
-                <h3>Chapter II</h3>
-                <ol>
-                  <li>Budgeting Methods</li>
-                </ol>
-              </div>
-              <div className="course-content-item">
-                <h3>Chapter III</h3>
-                <ol>
-                  <li>Budgeting Processes</li>
-                </ol>
+              <img src={courseDetials.imageUrl} alt={courseDetials.title} />
+            </div>
+            <div className="course-details-body">
+              <div className="course-details-body-left">
+                <h2>Description</h2>
+                <p>{courseDetials.description}</p>
+                <h3>Course Content</h3>
+                {contentData.length === 0 ? (
+                  <div className="course-content-item">
+                    <p>Content Not Available!</p>
+                  </div>
+                ) : (
+                  <TransformData data={contentData} />
+                )}
+                <h2>Who Should Take This Course?</h2>
+                <p>{courseDetials.whyCourse}</p>
+                <h2>Certification</h2>
+                <p>{courseDetials.certification}</p>
               </div>
             </div>
-            <h2>Who Should Take This Course?</h2>
-            <p>
-              This course is designed for a wide-range of professionals working
-              in the development, nonprofit, social enterprise, or humanitarian
-              sectors. Project managers, department managers, or anyone involved
-              with the financial management of their organization will find this
-              course helpful.
-            </p>
-            <h2>Certification</h2>
-            <p>
-              The University is a non-degree, diploma or credit granting
-              initiative. Philanthropy U, Inc. is the concept developer and
-              sponsor of the initiative. Learners are not entitled to earn
-              college or other academic credit.
-            </p>
           </div>
-          <div></div>
-        </div>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 

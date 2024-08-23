@@ -1,14 +1,15 @@
 import React from "react";
 import "./MobileMenu.css";
+import { Link } from "react-router-dom";
 
 const MobileMenu = ({ closeMenu }) => {
   return (
     <div className="mobile-menu">
-      <a href="#" onClick={closeMenu}>
+      <Link href="#" onClick={closeMenu}>
         &#10006;
-      </a>
-      <a href="#">Courses</a>
-      <a href="#">About Us</a>
+      </Link>
+      <Link href="#">Courses</Link>
+      <Link href="#">About Us</Link>
     </div>
   );
 };
